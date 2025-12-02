@@ -5,23 +5,22 @@
 eventrix.duckdns.org {
     encode zstd gzip
 
-    @auth {
-        path /api/auth* /api/debug*
-    }
+    @auth path /api/auth /api/auth/*
     handle @auth {
         reverse_proxy auth-service:4001
     }
 
-    @events {
-        path /api/events*
+    @debug path /api/debug /api/debug/*
+    handle @debug {
+        reverse_proxy auth-service:4001
     }
+
+    @events path /api/events /api/events/*
     handle @events {
         reverse_proxy event-service:4002
     }
 
-    @bookings {
-        path /api/bookings*
-    }
+    @bookings path /api/bookings /api/bookings/*
     handle @bookings {
         reverse_proxy booking-service:4003
     }

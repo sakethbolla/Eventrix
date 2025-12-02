@@ -381,9 +381,6 @@ router.get('/event/:eventId', verifyToken, async (req, res) => {
   }
 });
 
-module.exports = router;
-
-
 // PATCH /api/bookings/event/:eventId/cancel-all - Cancel all bookings for an event (internal use)
 router.patch('/event/:eventId/cancel-all', async (req, res) => {
   try {

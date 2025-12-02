@@ -11,6 +11,8 @@ services:
       - "443:443"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
     depends_on:
       - frontend
     networks:
@@ -117,9 +119,9 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        REACT_APP_AUTH_API_URL: /api/auth
-        REACT_APP_EVENT_API_URL: /api/events
-        REACT_APP_BOOKING_API_URL: /api/bookings
+        REACT_APP_AUTH_API_URL: /api
+        REACT_APP_EVENT_API_URL: /api
+        REACT_APP_BOOKING_API_URL: /api
     container_name: frontend
     ports:
       - "3000:80"
@@ -137,3 +139,5 @@ networks:
 
 volumes:
   mongo-data:
+  caddy_data:
+  caddy_config:
