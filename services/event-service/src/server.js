@@ -9,14 +9,20 @@ const app = express();
 
 const PORT = process.env.PORT || 4002;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/eventsphere-events';
+const defaultAllowedOrigins = [
+  'http://localhost:3000',
+  'https://wonderful-water-07646600f.3.azurestaticapps.net',
+  'https://wonderful-water-07646600f-preview.eastus2.3.azurestaticapps.net'
+];
+const envAllowedOrigins = (process.env.CORS_ALLOWED_ORIGINS || '')
+  .split(',')
+  .map(origin => origin.trim())
+  .filter(Boolean);
+const allowedOrigins = [...new Set([...defaultAllowedOrigins, ...envAllowedOrigins])];
 
 // Middleware
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'https://wonderful-water-07646600f.3.azurestaticapps.net',
-    'https://wonderful-water-07646600f-preview.eastus2.3.azurestaticapps.net'
-  ],
+  origin: allowedOrigins,
   credentials: true
 }));
 app.use(express.json());

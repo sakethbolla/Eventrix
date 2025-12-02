@@ -3,5 +3,30 @@
 }
 
 eventrix.duckdns.org {
-    reverse_proxy frontend:80
+    encode zstd gzip
+
+    @auth {
+        path /api/auth* /api/debug*
+    }
+    handle @auth {
+        reverse_proxy auth-service:4001
+    }
+
+    @events {
+        path /api/events*
+    }
+    handle @events {
+        reverse_proxy event-service:4002
+    }
+
+    @bookings {
+        path /api/bookings*
+    }
+    handle @bookings {
+        reverse_proxy booking-service:4003
+    }
+
+    handle {
+        reverse_proxy frontend:80
+    }
 }
